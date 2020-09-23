@@ -9,6 +9,8 @@ body {
   background: whitesmoke;
 }
 
+/* Header and search box */
+
 .header {
   display: flex;
   align-items: center;
@@ -20,7 +22,10 @@ body {
 
 #searchbox {
   padding: 8px 120px 8px 8px;
+  outline: none;
 }
+
+/* Grid-container */
 
 .grid-container {
   display: grid;
@@ -44,8 +49,7 @@ body {
   line-height: 0.6;
 }
 
-.name,
-.modal-name {
+.name {
   font-size: 18px;
   margin-bottom: 18px;
 }
@@ -72,6 +76,8 @@ body {
   bottom: 0;
   background: rgba(100, 100, 100, 0.4)
 }
+
+/* Modal */
 
 .modal {
   width: 375px;

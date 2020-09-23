@@ -6,16 +6,18 @@ const overlay = document.querySelector(".overlay");
 const modalContainer = document.querySelector(".modal-content");
 const modalClose = document.querySelector(".modal-close");
 const modalNav = document.querySelector(".modal-nav");
+const search = document.querySelector('#searchbox');  
+const previous = document.querySelector('.previous');
+const next = document.querySelector('.next');  
+let currentIndex = 0;
 
 // fetch data from API
-
 fetch(urlAPI)
   .then(res => res.json())
   .then(res => res.results)
   .then(displayEmployees)
   .catch(err => console.log(err));
   
-
 function displayEmployees(employeeData) {
   employees = employeeData;
   let employeeHTML = '';
@@ -57,10 +59,9 @@ function displayModal(index) {
                   <p class="address">${street.number} ${street.name}, ${state} ${postcode}</p>
                   <p class="birthday">Birthday: ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}</p>
           </div>
-          `;
-           
-    overlay.classList.remove('hidden');
-    modalContainer.innerHTML = modalHTML;
+          `;  
+  overlay.classList.remove('hidden');
+  modalContainer.innerHTML = modalHTML;
 }
 
 gridContainer.addEventListener('click', e => {
@@ -75,24 +76,34 @@ modalClose.addEventListener('click', () => {
   overlay.classList.add('hidden');
 });
 
+const cardToIndex = document.querySelectorAll(".card");
+const index = cardToIndex.getAttribute('data-index');
+
+// modalNav.addEventListener('click', e => {
+//   if (e.target === previous) {
+//     index -= 1;
+//     displayModal(index);
+//   } else if (index === next) {
+//     index += 1;
+//     displayModal(index);
+//   }
+// });
+
 modalNav.addEventListener('click', () => {
-  const card = document.querySelectorAll(".card");
-  let index = card.getAttribute('data-index');
-  console.log(index);
-  if (index < 11) {
-    index += 1;
+  if (displayModal(index) < 11 ) {
+    index -= 1;
     displayModal(index);
-  } else if (index === 11) {
-    index = 0;
+  } else if (displayModal(index) === 11 ) {
+    index += 1;
     displayModal(index);
   }
 });
 
-const search = document.querySelector('#searchbox');  
-const employeeNames = document.querySelectorAll('.name');
+// Employee search function to filter shown results by name
 
-const searchEmployees = event => {
-  const searchTerm = event.target.value.toLowerCase();
+search.addEventListener('keyup', () => {
+  const searchTerm = search.value.toLowerCase();
+  const employeeNames = document.querySelectorAll('.name');
   employeeNames.forEach(employeeName => {
     const text = employeeName.textContent.toLowerCase();
     const box = employeeName.parentElement.parentElement;
@@ -101,7 +112,6 @@ const searchEmployees = event => {
     } else {
       box.style.display = "none";  
     }
-    })
-  };
-
-search.addEventListener('keyup', searchEmployees);
+	  }
+  )
+});
