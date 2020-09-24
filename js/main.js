@@ -7,9 +7,8 @@ const modalContainer = document.querySelector(".modal-content");
 const modalClose = document.querySelector(".modal-close");
 const modalNav = document.querySelector(".modal-nav");
 const search = document.querySelector('#searchbox');  
-const previous = document.querySelector('.previous');
-const next = document.querySelector('.next');  
-let currentIndex = 0;
+const previous = document.querySelector(".previous");
+const next = document.querySelector(".next");
 
 // fetch data from API
 fetch(urlAPI)
@@ -45,6 +44,8 @@ function displayEmployees(employeeData) {
   gridContainer.innerHTML = employeeHTML;
 }
 
+
+
 function displayModal(index) {
   let { name, dob, phone, email, location: { city, street, state, postcode }, picture } = employees[index];
   let date = new Date(dob.date);    
@@ -69,38 +70,35 @@ gridContainer.addEventListener('click', e => {
     const card = e.target.closest(".card");
     let index = card.getAttribute('data-index');
     displayModal(index);
-  }
-});
+
+  let indexNumber = parseInt(index);
+
+  previous.addEventListener('click', () => { 
+      if (indexNumber > 0) {
+      indexNumber -= 1;
+      displayModal(indexNumber);
+    } else if (indexNumber === 0) {
+      indexNumber = 11;
+      displayModal(indexNumber);
+      }
+    });
+
+  next.addEventListener('click', () => {   
+      if (indexNumber < 11) {
+      indexNumber += 1;
+      displayModal(indexNumber);
+    } else if (indexNumber === 11) {
+      indexNumber = 0;
+      displayModal(indexNumber);
+      }
+    });
+}});
 
 modalClose.addEventListener('click', () => {
   overlay.classList.add('hidden');
 });
 
-const cardToIndex = document.querySelectorAll(".card");
-const index = cardToIndex.getAttribute('data-index');
-
-// modalNav.addEventListener('click', e => {
-//   if (e.target === previous) {
-//     index -= 1;
-//     displayModal(index);
-//   } else if (index === next) {
-//     index += 1;
-//     displayModal(index);
-//   }
-// });
-
-modalNav.addEventListener('click', () => {
-  if (displayModal(index) < 11 ) {
-    index -= 1;
-    displayModal(index);
-  } else if (displayModal(index) === 11 ) {
-    index += 1;
-    displayModal(index);
-  }
-});
-
 // Employee search function to filter shown results by name
-
 search.addEventListener('keyup', () => {
   const searchTerm = search.value.toLowerCase();
   const employeeNames = document.querySelectorAll('.name');
@@ -112,6 +110,5 @@ search.addEventListener('keyup', () => {
     } else {
       box.style.display = "none";  
     }
-	  }
-  )
+	})
 });
