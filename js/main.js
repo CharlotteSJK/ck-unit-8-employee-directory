@@ -106,7 +106,7 @@ search.addEventListener('keyup', () => {
     const text = employeeName.textContent.toLowerCase();
     const box = employeeName.parentElement.parentElement;
     if(text.indexOf(searchTerm) > -1) {
-      box.style.display = "block";
+      box.style.display = "flex";
     } else {
       box.style.display = "none";  
     }
